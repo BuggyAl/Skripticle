@@ -1,0 +1,48 @@
+# Notice: This code REQUIRES SkBee's 1.9.0 particle functionality to work. You can download it here: https://github.com/ShaneBeee/SkBee/releases
+
+# skBeeParticle(particle)
+# Converts a Skript particle to a SkBee particle.
+# particle: The particle to convert. (Skript particle)
+function skBeeParticle(particle: particle effect) :: particle:
+	return ({_particle} parsed as particle)
+
+# drawLine(pos1, pos2, particle, particleDistance)
+# Draws a line between two locations using particles.
+# pos1: The first location. (location)
+# pos2: The second location. (location)
+# particle: The particle to use. (SkBee particle) You can view a list of particles here: https://skripthub.net/docs/?id=4542
+# particleDistance: The distance between each particle. (Default: 0.5)
+function drawLine(pos1: location, pos2: location, particle: particle, particleDistance: number = 0.5):
+	if {_particleDistance} <= 0:
+		set {_particleDistance} to 1
+	set {_distance} to distance between {_pos1} and {_pos2}
+	set {_diffX} to x-coordinate of {_pos2} - x-coordinate of {_pos1}
+	set {_diffY} to y-coordinate of {_pos2} - y-coordinate of {_pos1}
+	set {_diffZ} to z-coordinate of {_pos2} - z-coordinate of {_pos1}
+	set {_particleNum} to round({_distance} / {_particleDistance})
+	set {_particleDistance} to {_distance} / {_particleNum}
+	set {_stepX} to {_diffX} / {_particleNum}
+	set {_stepY} to {_diffY} / {_particleNum}
+	set {_stepZ} to {_diffZ} / {_particleNum}
+	set {_x} to x-coordinate of {_pos1}
+	set {_y} to y-coordinate of {_pos1}
+	set {_z} to z-coordinate of {_pos1}
+	loop {_particleNum} + 1 times:
+		draw 1 {_particle} at location({_x}, {_y}, {_z}, world of {_pos1}) with extra 0 with force
+		add {_stepX} to {_x}
+		add {_stepY} to {_y}
+		add {_stepZ} to {_z}
+
+# drawPolygon(points, particle, particleDistance)
+# Draws a polygon using a list of points and a particle.
+# points: A list of locations. (Must be inputted as a Skript list!)
+# particle: The particle to use. You can view a list of particles here: https://skripthub.net/docs/?id=4542
+# particleDistance: The distance between each particle. (Default: 0.5)
+function drawPolygon(points: locations, particle: particle, particleDistance: number = 0.5):
+	if {_particleDistance} <= 0:
+		set {_particleDistance} to 1
+	loop (size of {_points::*} times):
+		if {_points::%(loop-value + 1)%} exists:
+			drawLine({_points::%loop-value%}, {_points::%(loop-value + 1)%}, {_particle}, {_particleDistance})
+		else:
+			drawLine({_points::%loop-value%}, {_points::1}, {_particle}, {_particleDistance})

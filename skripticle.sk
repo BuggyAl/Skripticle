@@ -20,7 +20,6 @@ function drawLine(pos1: location, pos2: location, particle: particle, particleDi
 	set {_diffY} to y-coordinate of {_pos2} - y-coordinate of {_pos1}
 	set {_diffZ} to z-coordinate of {_pos2} - z-coordinate of {_pos1}
 	set {_particleNum} to round({_distance} / {_particleDistance})
-	set {_particleDistance} to {_distance} / {_particleNum}
 	set {_stepX} to {_diffX} / {_particleNum}
 	set {_stepY} to {_diffY} / {_particleNum}
 	set {_stepZ} to {_diffZ} / {_particleNum}
@@ -33,12 +32,12 @@ function drawLine(pos1: location, pos2: location, particle: particle, particleDi
 		add {_stepY} to {_y}
 		add {_stepZ} to {_z}
 
-# drawPolygon(points, particle, particleDistance)
-# Draws a polygon using a list of points and a particle.
+# drawShape(points, particle, particleDistance)
+# Draws a shape using a list of points and a particle.
 # points: A list of locations. (Must be inputted as a Skript list!)
 # particle: The particle to use. You can view a list of particles here: https://skripthub.net/docs/?id=4542
 # particleDistance: The distance between each particle. (Default: 0.5)
-function drawPolygon(points: locations, particle: particle, particleDistance: number = 0.5):
+function drawShape(points: locations, particle: particle, particleDistance: number = 0.5):
 	if {_particleDistance} <= 0:
 		set {_particleDistance} to 1
 	loop (size of {_points::*} times):

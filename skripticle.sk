@@ -17,9 +17,8 @@ function drawLine(pos1: location, pos2: location, particle: particle, particleDi
 		set {_particleDistance} to 0.5
 	set {_distance} to distance between {_pos1} and {_pos2}
 	set {_particleNum} to round({_distance} / {_particleDistance})
-	set {_particleDistance} to {_distance} / {_particleNum}
 	set {_vector} to vector between {_pos1} and {_pos2}
-	set vector length of {_vector} to {_particleDistance}
+	set vector length of {_vector} to {_distance} / {_particleNum}
 	set {_loc} to {_pos1}
 	loop {_particleNum} + 1 times:
 		draw 1 {_particle} at {_loc} with extra 0 with force
